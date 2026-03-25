@@ -13,12 +13,9 @@ import os
 router = APIRouter(prefix="/events", tags=["Driver Events"])
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "llama3" # Note: Can be changed to mistral, phi3, etc.
+OLLAMA_MODEL = "llama3" 
 
-co_client = None
-co_api_key = os.getenv("COHERE_API_KEY")
-if co_api_key:
-    co_client = cohere.Client(co_api_key)
+# Note: We'll initialize Cohere inside the route to ensure env vars are loaded property.
 
 @router.post("/")
 def log_driver_event(
@@ -86,19 +83,23 @@ async def get_ai_suggestions(
     """
     
     # 1. Try Cohere if API key exists (Cloud Deployments)
-    if co_client:
+    co_api_key = os.getenv("COHERE_API_KEY")
+    if co_api_key:
         try:
-            response = co_client.chat(
+            print(f"Attempting Cloud AI suggestions with Cohere...")
+            co = cohere.Client(co_api_key)
+            response = co.chat(
                 message=prompt,
-                model="command-r-plus"
+                model="command" # 'command' is most compatible with Trial keys
             )
             raw_text = response.text
             suggestions = [line.strip("- *").strip() for line in raw_text.split("\n") if line.strip("- *").strip()]
             suggestions = [s for s in suggestions if len(s) > 10]
             if suggestions:
+                print("Cloud AI suggestion generation successful.")
                 return {"suggestions": suggestions}
         except Exception as e:
-            print("Cohere Error:", e)
+            print(f"Cohere Cloud Error: {str(e)}")
 
     # 2. Fallback to Local Ollama
     try:
