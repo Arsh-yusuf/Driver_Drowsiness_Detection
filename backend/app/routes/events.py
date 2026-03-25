@@ -9,6 +9,9 @@ import httpx
 import json
 import cohere
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 router = APIRouter(prefix="/events", tags=["Driver Events"])
 
@@ -90,7 +93,7 @@ async def get_ai_suggestions(
             co = cohere.Client(co_api_key)
             response = co.chat(
                 message=prompt,
-                model="command-r-plus" # 'command' is most compatible with Trial keys
+                model="command-a-03-2025"
             )
             raw_text = response.text
             suggestions = [line.strip("- *").strip() for line in raw_text.split("\n") if line.strip("- *").strip()]
