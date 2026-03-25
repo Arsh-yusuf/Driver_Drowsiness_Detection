@@ -1,0 +1,27 @@
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Python dependencies
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node dependencies
+node_modules/
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
