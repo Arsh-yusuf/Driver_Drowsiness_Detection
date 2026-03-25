@@ -90,7 +90,7 @@ async def get_ai_suggestions(
             co = cohere.Client(co_api_key)
             response = co.chat(
                 message=prompt,
-                model="command" # 'command' is most compatible with Trial keys
+                model="command-r-plus" # 'command' is most compatible with Trial keys
             )
             raw_text = response.text
             suggestions = [line.strip("- *").strip() for line in raw_text.split("\n") if line.strip("- *").strip()]
