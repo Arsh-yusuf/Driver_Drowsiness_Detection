@@ -25,7 +25,7 @@ Driver_Drowsiness_Detection/
 │   │   │   └── Dashboard.tsx    # Analytics & AI Suggestions
 │   │   └── lib/api.ts          # API Communication Layer
 │   └── vercel.json             # Deployment Config
-└── backend/                 # FastAPI (Python 3.10+)
+└── backend/                 # FastAPI (Python 3.12+)
     ├── app/
     │   ├── routes/             # API Endpoints (Auth, Sessions, Events)
     │   ├── models/             # SQLAlchemy Database Models
@@ -68,13 +68,6 @@ Driver_Drowsiness_Detection/
    VITE_API_BASE=http://localhost:8000
    ```
 4. Start the development server: `npm run dev`
-
----
-
-## ☁️ Deployment
-
-For a production/cloud-ready deployment guide, please refer to the internal documentation:
-👉 **[Deployment Plan](file:///C:/Users/ASUS/.gemini/antigravity/brain/f3a1c223-2425-4f0d-8110-2196b8dd2d72/deployment_plan.md)**
 
 ---
 
