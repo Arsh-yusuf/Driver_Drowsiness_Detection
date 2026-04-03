@@ -9,7 +9,10 @@ export const registerUser = async (data: { email: string; password: string }) =>
         body: JSON.stringify(data)
     });
 
-    if (!res.ok) throw new Error("Registration failed");
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.detail || "Registration failed");
+    }
     return res.json();
 };
 
@@ -22,7 +25,10 @@ export const loginUser = async (data: { email: string; password: string }) => {
         body: JSON.stringify(data)
     });
 
-    if (!res.ok) throw new Error("Login failed");
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.detail || "Login failed");
+    }
     return res.json();
 };
 
