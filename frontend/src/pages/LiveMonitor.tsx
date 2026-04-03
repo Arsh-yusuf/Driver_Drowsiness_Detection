@@ -286,23 +286,23 @@ const LiveMonitor = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="p-4 border-b border-border flex items-center justify-between bg-card/50 backdrop-blur-md sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <h1 className="font-bold">Live Monitor</h1>
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")} className="h-8 w-8">
+              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              <h1 className="font-bold text-xs sm:text-base whitespace-nowrap">Live Monitor</h1>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className={`h-2 w-2 rounded-full ${landmarker && !cameraStopped ? 'bg-success pulse-dot' : 'bg-destructive'}`} />
-            <span className="text-sm font-medium">{status}</span>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${landmarker && !cameraStopped ? 'bg-success pulse-dot' : 'bg-destructive'}`} />
+            <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">{status}</span>
           </div>
           {!cameraStopped && (
-            <Button variant="destructive" size="sm" onClick={handleStopCamera}>
-              Stop Camera
+            <Button variant="destructive" size="sm" onClick={handleStopCamera} className="h-7 sm:h-8 text-[10px] sm:text-xs px-2 sm:px-3">
+              Stop
             </Button>
           )}
         </div>
@@ -328,15 +328,15 @@ const LiveMonitor = () => {
           )}
 
           {/* Overlay UI */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-4">
             {!isCalibrated && landmarker && (
-              <div className="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/10 flex flex-col items-center gap-4 animate-in zoom-in-95 duration-300">
-                <Camera className="h-10 w-10 text-primary animate-pulse" />
+              <div className="bg-black/60 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-white/10 flex flex-col items-center gap-3 sm:gap-4 animate-in zoom-in-95 duration-300 max-w-[90%]">
+                <Camera className="h-8 w-8 sm:h-10 sm:w-10 text-primary animate-pulse" />
                 <div className="text-center">
-                  <h3 className="text-lg font-bold">Calibration in Progress</h3>
-                  <p className="text-sm text-white/70">Please look straight at the camera</p>
+                  <h3 className="text-sm sm:text-lg font-bold">Calibration in Progress</h3>
+                  <p className="text-[10px] sm:text-sm text-white/70">Please look straight at the camera</p>
                 </div>
-                <div className="w-48 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="w-32 sm:w-48 h-1.5 sm:h-2 bg-white/10 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-primary transition-all duration-300" 
                     style={{ width: `${(calibrationFrames / MAX_CALIBRATION_FRAMES) * 100}%` }}
@@ -344,11 +344,11 @@ const LiveMonitor = () => {
                 </div>
               </div>
             )}
-
+            
             {alert && (
-              <div className="bg-destructive/80 backdrop-blur-xl p-8 rounded-full border-4 border-white/20 animate-bounce shadow-[0_0_50px_rgba(239,68,68,0.5)]">
-                <AlertTriangle className="h-16 w-16 text-white" />
-                <p className="mt-2 text-white font-black text-xl text-center">{alert.replace(/_/g, " ")}</p>
+              <div className="bg-destructive/80 backdrop-blur-xl p-4 sm:p-8 rounded-2xl sm:rounded-full border-4 border-white/20 animate-bounce shadow-[0_0_50px_rgba(239,68,68,0.5)] flex flex-col items-center">
+                <AlertTriangle className="h-8 w-8 sm:h-16 sm:w-16 text-white" />
+                <p className="mt-2 text-white font-black text-sm sm:text-xl text-center uppercase">{alert.replace(/_/g, " ")}</p>
               </div>
             )}
           </div>

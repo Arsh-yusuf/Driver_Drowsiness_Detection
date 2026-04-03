@@ -122,18 +122,18 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 rounded-full bg-success/10 border border-success/20 px-3 py-1">
+            <div className="flex items-center gap-2 rounded-full bg-success/10 border border-success/20 px-2 sm:px-3 py-1">
               <span className="h-2 w-2 rounded-full bg-success pulse-dot" />
-              <span className="text-xs font-medium text-success">System Active</span>
+              <span className="text-[10px] sm:text-xs font-medium text-success whitespace-nowrap">System Active</span>
             </div>
             <Button
               variant="default"
               size="sm"
               onClick={() => navigate("/monitor")}
-              className="bg-primary hover:bg-primary/90 hidden sm:flex items-center gap-1"
+              className="bg-primary hover:bg-primary/90 h-8 sm:h-9 px-2 sm:px-4 flex items-center gap-1"
             >
               <Camera className="h-4 w-4" />
-              Start Monitoring
+              <span className="hidden sm:inline">Start Monitoring</span>
             </Button>
             <Button
               variant="ghost"
@@ -142,18 +142,18 @@ const Dashboard = () => {
                 localStorage.removeItem("token");
                 navigate("/");
               }}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground h-8 sm:h-9 px-2"
             >
-              <LogOut className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">Logout</span>
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline ml-1">Logout</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 py-6 space-y-6">
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 py-4 sm:py-6 space-y-6">
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Total Events"
             value={stats.totalAlerts}
@@ -239,7 +239,8 @@ const Dashboard = () => {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border/30 bg-muted/30">
@@ -283,16 +284,60 @@ const Dashboard = () => {
                     <td className="px-5 py-3.5 font-mono text-xs text-muted-foreground">{alert.vehicleId}</td>
                   </tr>
                 ))}
-                {filteredAlerts.length === 0 && (
-                  <tr>
-                    <td colSpan={8} className="px-5 py-12 text-center text-muted-foreground">
-                      No alerts matching your filters.
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden divide-y divide-border/20">
+            {filteredAlerts.map((alert, i) => (
+              <div 
+                key={alert.id} 
+                className="p-4 space-y-3 animate-fade-in"
+                style={{ animationDelay: `${i * 0.05}s` }}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-sm font-bold text-foreground">{alert.driverName}</h3>
+                    <p className="text-[10px] font-mono text-muted-foreground uppercase">{alert.id}</p>
+                  </div>
+                  <SeverityBadge severity={alert.severity} />
+                </div>
+                
+                <div className="flex flex-wrap gap-1.5">
+                  {alert.symptoms.map((symptom, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-block rounded bg-accent/60 border border-border/30 px-2 py-0.5 text-[10px] text-muted-foreground"
+                    >
+                      {symptom}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between pt-1">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] text-muted-foreground flex items-center gap-1 uppercase tracking-tight">
+                      <Clock className="h-3 w-3" /> {alert.time}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground flex items-center gap-1 uppercase tracking-tight">
+                      <Users className="h-3 w-3" /> {alert.vehicleId}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs font-bold text-foreground">{alert.duration}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Duration</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {filteredAlerts.length === 0 && (
+            <div className="px-5 py-12 text-center text-muted-foreground">
+              No alerts matching your filters.
+            </div>
+          )}
         </div>
       </main>
     </div>
